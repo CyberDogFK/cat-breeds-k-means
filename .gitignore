@@ -1,3 +1,5 @@
 /target
 Cargo.lock
 /.idea
+training_data.csv
+plot.png
