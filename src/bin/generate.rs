@@ -1,3 +1,4 @@
+use clap::Parser;
 use ndarray::Array2;
 use rand::distributions::Distribution; // for using .sample()
 use rand::thread_rng;
@@ -6,6 +7,13 @@ use serde::Deserialize;
 use std::error::Error;
 use std::fs::read_to_string;
 use std::io;
+
+#[derive(Parser)]
+struct Args {
+    #[arg(short = 'c', long = "config-file")]
+    /// Configuration file TOML
+    config_file_path: std::path::PathBuf,
+}
 
 #[derive(Deserialize)]
 struct Config {
@@ -47,7 +55,8 @@ fn generate_data(
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let toml_config_str = read_to_string("config/generate.toml")?;
+    let args = Args::parse();
+    let toml_config_str = read_to_string(args.config_file_path)?;
     let config: Config = toml::from_str(&toml_config_str)?;
     let centroids = Array2::from_shape_vec((3, 2), config.centroids.to_vec())?;
     let samples = generate_data(&centroids, config.samples_per_centroid, config.noise)?;
