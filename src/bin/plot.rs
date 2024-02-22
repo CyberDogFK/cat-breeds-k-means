@@ -12,9 +12,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         x.push(record[0].parse()?);
         y.push(record[1].parse()?);
     }
-    let root_drawing_area = BitMapBackend::new(
-        "plot.png", (900, 600)
-    ).into_drawing_area();
+    let root_drawing_area = BitMapBackend::new("plot.png", (900, 600)).into_drawing_area();
     root_drawing_area.fill(&WHITE)?;
 
     let mut chart = ChartBuilder::on(&root_drawing_area)
@@ -32,18 +30,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         .draw_series(
             x.into_iter()
                 .zip(y)
-                .map(|point| Cross::new(
-                    point,
-                    3,
-                    Into::<ShapeStyle>::into(&BLUE).stroke_width(2)
-                )),
+                .map(|point| Cross::new(point, 3, Into::<ShapeStyle>::into(&BLUE).stroke_width(2))),
         )?
         .label("Cat")
-        .legend(|(x, y)| Cross::new(
-            (x, y),
-            3,
-            Into::<ShapeStyle>::into(&BLUE).stroke_width(2)
-        ));
+        .legend(|(x, y)| Cross::new((x, y), 3, Into::<ShapeStyle>::into(&BLUE).stroke_width(2)));
     chart
         .configure_series_labels()
         .position(SeriesLabelPosition::LowerRight)
