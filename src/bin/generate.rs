@@ -61,7 +61,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let centroids = Array2::from_shape_vec((3, 2), config.centroids.to_vec())?;
     let samples = generate_data(&centroids, config.samples_per_centroid, config.noise)?;
     let mut writer = csv::Writer::from_writer(io::stdout());
-    writer.write_record(&["height", "length"])?;
+    writer.write_record(["height", "length"])?;
     for sample in samples.rows() {
         let mut sample_iter = sample.into_iter();
         writer.serialize((sample_iter.next().unwrap(), sample_iter.next().unwrap()))?;
